@@ -40,5 +40,3 @@ docker-compose.override.yml
 # Archivos de seguridad
 secrets.json
 
-# Archivos adicionales de Blazor y MudBlazor
-wwwroot/
