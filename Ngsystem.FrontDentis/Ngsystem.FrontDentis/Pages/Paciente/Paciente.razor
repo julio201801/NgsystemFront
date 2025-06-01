@@ -1,0 +1,88 @@
+﻿@page "/Paciente/Paciente"
+@using Ngsystem.FrontDentis.Components
+@using Ngsystem.Infrastructure.Dtos
+@inherits WeatherBase
+
+@if (this.estadoLoad)
+{
+    <Loading />
+}
+else
+{
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+
+<MudPaper Elevation="3" Class="pa-4" Width="100%">
+
+<MudGrid>
+    <MudItem xs="12">           
+                <div class="row">
+                    <div class="col-md-6">
+                        <MudText Typo="Typo.h5" GutterBottom="true">Pacientes</MudText>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="text-align: right;">
+                            <MudButton Variant="Variant.Filled"
+                                       StartIcon="@Icons.Material.Filled.Add"
+                                       Color="Color.Info"
+                                       OnClick="NuevoPaciente">
+                                Nuevo Paciente
+                            </MudButton>
+                        </div>
+                       
+                    </div>
+                </div>
+        <MudTable Items="@listaPacienteDto"
+                  Dense="true"
+                  Striped="true" 
+                  Bordered="true"
+                  Filter="new Func<LisPacienteResponseDto,bool>(FilterFunc1)" 
+                  @bind-SelectedItem="selectedItem1"
+                  Loading="@_loading" 
+                  LoadingProgressColor="Color.Info">
+            <ToolBarContent>
+                <MudTextField @bind-Value="searchString1" 
+                              Placeholder="Buscar" 
+                              Adornment="Adornment.Start" 
+                              AdornmentIcon="@Icons.Material.Filled.Search" 
+                              IconSize="Size.Large" 
+                              Class="mt-0">
+                </MudTextField>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh Class="mud-th-custom">Nombre</MudTh>
+                <MudTh Class="mud-th-custom">Apellido</MudTh>
+                <MudTh Class="mud-th-custom">DNI</MudTh>
+                <MudTh Class="mud-th-custom">Direccion</MudTh>
+                <MudTh Class="mud-th-custom">Accion</MudTh>
+            </HeaderContent>
+            <RowTemplate Context="paciente">
+                   <MudTd DataLabel="Fecha Registro">@paciente.Nombre</MudTd>
+                   <MudTd DataLabel="Nombre">@paciente.Apellido</MudTd>
+                   <MudTd DataLabel="Apellido">@paciente.Dni</MudTd>
+                   <MudTd DataLabel="Dni">@paciente.Direccion</MudTd>
+                   <MudTd DataLabel=""  >
+                   
+                    <MudFab Style="width:40px;" Color="Color.Success"
+                            StartIcon="@Icons.Material.Filled.Edit"
+                            Size="Size.Small"
+                            IconSize="Size.Small"
+                                    OnClick="@(() => AbrirEditarPacientes(paciente))" />
+                    <MudFab Color="Color.Error"
+                            StartIcon="@Icons.Material.Filled.Delete"
+                            Size="Size.Small"
+                            IconSize="Size.Small"
+                                    OnClick="@(() => MostrarDetalle())" />
+                </MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager />
+            </PagerContent>
+        </MudTable>
+
+
+    </MudItem>
+</MudGrid>
+</MudPaper>
+</MudContainer>
+}
+

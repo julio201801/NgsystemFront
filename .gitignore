@@ -1,0 +1,44 @@
+# Archivos de Visual Studio
+.vs/
+*.user
+*.suo
+
+# Archivos de compilación
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Archivos de configuración
+*.config
+*.db
+*.log
+
+# Paquetes y dependencias
+packages/
+node_modules/
+*.nupkg
+
+# Archivos de proyecto específicos
+project.lock.json
+*.csproj.user
+
+# Archivos de depuración
+*.psess
+*.tss
+*.vsp
+TestResults/
+
+# Configuración de contenedores
+docker-compose.override.yml
+
+# Archivos generados por herramientas de análisis
+*.coverage
+*.generated.cs
+
+# Archivos de seguridad
+secrets.json
+
+# Archivos adicionales de Blazor y MudBlazor
+wwwroot/

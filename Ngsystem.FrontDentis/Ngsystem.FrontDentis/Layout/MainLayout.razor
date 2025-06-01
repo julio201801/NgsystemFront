@@ -1,0 +1,64 @@
+﻿@inherits LayoutComponentBase
+@inject SweetAlertService Swal;
+@inject NavigationManager _navigationManager
+
+<MudThemeProvider />
+<MudDialogProvider DisableBackdropClick="true"
+                   Position="DialogPosition.Center" />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="0" Color="Color.Info">
+        @if (_drawerOpen)
+        { 
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        }
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" OnClick="CerrarSesion" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" >
+        <div class="mud-th-custom">
+        <MudDrawerHeader >
+            <MudText Color="Color.Default" Typo="Typo.h6" >Sistema de Dental</MudText>
+        </MudDrawerHeader>
+        </div>
+        <NavMenu/>
+    </MudDrawer>
+    <MudMainContent style="background-color:#a49d9d">
+        @Body
+        <p>&nbsp;&nbsp;&nbsp;</p>
+
+
+    </MudMainContent>
+</MudLayout>
+
+
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private async Task CerrarSesion()
+    {
+        SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Desea salir?",
+                Icon = SweetAlertIcon.Info,
+                ShowCancelButton = true,
+                ConfirmButtonText = "Si",
+                CancelButtonText = "No"
+            });
+
+        if (result.IsConfirmed)
+        {
+            _navigationManager.NavigateTo("/");
+        }
+    }
+}
