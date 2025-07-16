@@ -1,6 +1,11 @@
 ﻿<MudNavMenu Color="Color.Info" >
+    <MudNavGroup Title="Paciente" Icon="@Icons.Material.Filled.PriceCheck" Expanded="false">
+        <MudNavLink Href="/Paciente/Crear">Crear Paciente</MudNavLink>
+        <MudNavLink Href="/Paciente/Historial">Historial</MudNavLink>
+    </MudNavGroup>
+
     <MudNavLink Href="/Paciente/Paciente" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PriceCheck">Paciente</MudNavLink>
-    <MudNavLink IconColor="Color.Info" Href="/page/dashboard" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">DashBoard</MudNavLink>
+    <MudNavLink Href="/Factura/FacturaPage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Dashboard">DashBoard</MudNavLink>
     <MudNavLink Href="/page/usuario" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Person2">Usuarios</MudNavLink>
     <MudNavLink Href="/page/producto" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AllInbox">Citas</MudNavLink>
     <MudNavLink Href="/page/historialventa" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PlaylistAddCheckCircle">Historial Medico</MudNavLink>

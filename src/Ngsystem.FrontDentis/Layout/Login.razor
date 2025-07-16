@@ -1,0 +1,39 @@
+﻿@page "/"
+
+@inject NavigationManager _navigationManager
+@inherits LoginBase
+@layout LoginLayout
+<EditForm Model="@usuarioLogin" OnValidSubmit="OnValidSubmit">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+    <MudText Typo="Typo.h4" GutterBottom="true" Align="Align.Center">Login</MudText>
+
+    <MudTextField T="string"
+                  @bind-Value="@usuarioLogin.Usuario"
+                  Label="Correo"
+                  Margin="Margin.Dense"
+                  Variant="Variant.Outlined"
+                  Class="my-6"
+                  For="@(() => usuarioLogin.Usuario)">
+    </MudTextField>
+
+    <MudTextField @bind-Value="@usuarioLogin.Password"
+                  Label="Contraseña"
+                  Variant="Variant.Outlined"
+                  Margin="Margin.Dense"
+                  InputType="@PasswordInput"
+                  Adornment="Adornment.End"
+                  AdornmentIcon="@PasswordInputIcon"
+                  OnAdornmentClick="TogglePasswordVisibility"
+                  For="@(() => usuarioLogin.Password)" />
+
+    <MudButton Class="mt-5" Variant="Variant.Filled" Color="Color.Info" ButtonType="ButtonType.Submit" Size="Size.Large"
+               FullWidth="true"
+               Disabled="@disableButton">Iniciar Sesión</MudButton>
+
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="@(myImageClass + " my-7")" />
+</EditForm>
+
+<MudAlert Severity="Severity.Error" Class="@(myAlert + " mt-8 mud-width-full")" Style="max-width:500px;" Elevation="25">No se encontraron coincidencias</MudAlert>
+

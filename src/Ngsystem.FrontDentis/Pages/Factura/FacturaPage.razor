@@ -1,0 +1,142 @@
+﻿@page "/Factura/FacturaPage"
+@inherits FacturaPageBase
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
+ <MudPaper Elevation="3" Class="pa-4" Width="100%">
+<MudGrid Gutter="3">
+
+    <!-- Sección izquierda: búsqueda y tabla de detalles -->
+    <MudItem xs="12" md="9">
+        <MudStack Spacing="2">
+            <!-- Buscador de producto -->
+                          <MudAutocomplete T="Producto"
+                                     Label="Producto"
+                                     Value="ProductoSeleccionado"
+                                     ValueChanged="OnProductoSeleccionado"
+                                     ValueExpression="() => ProductoSeleccionado"
+                                     ToStringFunc="p => p.Nombre"
+                                     SearchFunc="BuscarProductos"
+                                     MinCharacters="1"
+                                     CoerceText="true"
+                                     Clearable="true"
+                                     Adornment="Adornment.End"
+                                     AdornmentIcon="@Icons.Material.Filled.Search" />
+
+
+
+            <!-- Tabla de detalles -->
+                    <MudTable Items="Factura.Detalles" Hover="true" Class="compact-table">
+                <HeaderContent>
+                    <MudTh>#</MudTh>
+                    <MudTh>Producto</MudTh>
+                    <MudTh>Marca</MudTh>
+                    <MudTh>Cant.</MudTh>
+                    <MudTh>Precio</MudTh>
+                    <MudTh>Importe</MudTh>
+                    <MudTh></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd Class="compact-cell">1</MudTd>
+                    <MudTd Class="compact-cell">@context.Producto</MudTd>
+                    <MudTd Class="compact-cell">@context.Marca</MudTd>
+                    <MudTd Class="compact-cell"><MudNumericField T="int"
+                                         @bind-Value="context.Cantidad"
+                                         Min="1"
+                                         Max="1000"
+                                         Immediate="true"
+                                         Class="mt-0 mb-0"
+                                         Style="width:75px;" />
+                     </MudTd>
+
+                    <MudTd Class="compact-cell">S/. @context.PrecioUnitario.ToString("F2")</MudTd>
+                    <MudTd Class="compact-cell">S/. @context.Subtotal.ToString("F2")</MudTd>
+                    <MudTd Class="compact-cell">
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                       Color=Color.Error
+                                       OnClick="@(() => EliminarItem(context))" />
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudStack>
+    </MudItem>
+
+    <!-- Sección derecha: resumen de la factura -->
+    <MudItem xs="12" md="3">
+                <MudPaper Elevation="2" Class="pa-4" Style="background-color: rgba(76,175,80,0.15);
+                padding: 8px 12px;
+                border-radius: 4px;">
+            <MudStack Spacing="2">
+                        <MudText Typo="Typo.h6"
+                                 Color="Color.Success"
+                                 Style="background-color: rgba(76,175,80,0.15);
+                                        padding: 8px 12px;
+                                        border-radius: 4px;">
+                                        Total: S/. @Factura.Total.ToString("F2")
+                        </MudText>
+
+        <div class="row">
+             <div class="col-md-6">
+                <MudTextField Label="Serie"
+                                @bind-Value="Factura.Serie"
+                                Variant="Variant.Text"
+                                Adornment="Adornment.End"
+                                Margin="Margin.Dense" />
+             </div>
+            <div class="col-md-6">
+                <MudTextField Label="Nro de Venta"
+                                @bind-Value="Factura.Serie"
+                                Variant="Variant.Outlined"
+                                Adornment="Adornment.End"
+                                Margin="Margin.Dense" />
+            </div>
+        </div>
+                <MudTextField Label="Serie"
+                              @bind-Value="Factura.Serie"
+                               Variant="Variant.Outlined"
+                               Adornment="Adornment.End"
+                               Margin="Margin.Dense" />
+
+                <MudTextField Label="Proveedor"
+                              @bind-Value="Factura.Proveedor"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              Adornment="Adornment.End" />
+
+                <MudDatePicker Label="Fecha"
+                               @bind-Date="Factura.Fecha" />
+
+                <MudDivider />
+
+                        <MudText Typo="Typo.body2" Align="Align.Right">
+                    SubTotal: S/. @Factura.SubTotal.ToString("F2")
+                </MudText>
+                        <MudText Typo="Typo.body2" Align="Align.Right">
+                    IGV (18%): S/. @Factura.IGV.ToString("F2")
+                </MudText>
+                        <MudText Typo="Typo.body2" Align="Align.Right">
+                        Total: S/. @Factura.Total.ToString("F2")
+                    </MudText>
+                <div class="row">
+                            <div class="col-md-6 d-flex justify-content-center">
+                        <MudButton Variant="Variant.Filled" 
+                                  Size="Size.Large"
+                                   Color="Color.Info"
+                                    >
+                            Guardar 
+                        </MudButton>
+                    </div>
+                            <div class="col-md-6 d-flex justify-content-center">
+                                <MudButton Variant="Variant.Filled"
+                                           Size="Size.Large"
+
+                                           Color="Color.Error">
+                                    Limpiar
+                                </MudButton>
+                    </div>
+                </div>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+
+</MudGrid>
+    </MudPaper>
+</MudContainer>

@@ -1,8 +1,15 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.LocalStorage
+@using Microsoft.AspNetCore.Components.Authorization
+@using Ngsystem.FrontDentis.Utility
+@inherits LayoutComponentBase
 @inject SweetAlertService Swal;
 @inject NavigationManager _navigationManager
+@inject CustomAuthStateProvider customAuthStateProvider
 
-<MudThemeProvider />
+<AuthorizeView>
+<Authorized>
+<MudThemeProvider @bind-IsDarkMode="_isDarkMode" Theme="_theme">
+</MudThemeProvider>
 <MudDialogProvider DisableBackdropClick="true"
                    Position="DialogPosition.Center" />
 <MudSnackbarProvider />
@@ -18,32 +25,58 @@
             <MudIconButton Icon="@Icons.Material.Filled.MenuOpen" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         }
         <MudSpacer />
+        <MudSwitch @bind-Value="_isDarkMode" Color="Color.Secondary" Label="Modo Oscuro" />
         <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" OnClick="CerrarSesion" />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" >
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1"  >
         <div class="mud-th-custom">
         <MudDrawerHeader >
             <MudText Color="Color.Default" Typo="Typo.h6" >Sistema de Dental</MudText>
         </MudDrawerHeader>
         </div>
-        <NavMenu/>
+        <NavMenu />
     </MudDrawer>
-    <MudMainContent style="background-color:#a49d9d">
+    <MudMainContent style="background-color:#4B4B4B;
+           min-height:100vh;
+           box-sizing:border-box;">
         @Body
-        <p>&nbsp;&nbsp;&nbsp;</p>
-
+        
 
     </MudMainContent>
 </MudLayout>
 
+ </Authorized>
+ <NotAuthorized>
+        <Login />
+ </NotAuthorized>
+ <Authorizing>
+     Autorizado.....
+ </Authorizing>
+
+</AuthorizeView>
 
 @code {
+    [Inject] ILocalStorageService _localStorage { get; set; }
     bool _drawerOpen = true;
-
+    private bool _isDarkMode = true; // o false por defecto
+    private MudThemeProvider _mudThemeProvider;
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
+
+    private MudTheme _theme = new MudTheme()
+    {
+        PaletteDark = new PaletteDark()
+        {
+            Primary = Colors.Blue.Lighten1,
+            Secondary = Colors.Green.Accent4,
+            Background = "#121212",
+            Surface = "#1E1E1E",
+            AppbarBackground = "#1F1F1F",
+            DrawerBackground = "#1F1F1F"
+        }
+    };
 
     private async Task CerrarSesion()
     {
@@ -58,6 +91,9 @@
 
         if (result.IsConfirmed)
         {
+            await _localStorage.RemoveItemAsync("authToken");
+            CustomAuthStateProvider.IsAuthenticated = false;
+            customAuthStateProvider.NotifyAuthenticationStateChanged();
             _navigationManager.NavigateTo("/");
         }
     }
