@@ -134,3 +134,13 @@ code {
 .compact-table .mud-table-row {
     min-height: 32px;
 }
+.icon-wrapper {
+    background-color: #26b050; /* Verde claro */
+    border-radius: 10%;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+}

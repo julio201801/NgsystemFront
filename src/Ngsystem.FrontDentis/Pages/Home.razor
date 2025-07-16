@@ -1,3 +1,114 @@
-﻿
+﻿@page "/dashboard"
+@using MudBlazor
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-4">
+    <MudGrid>
+        <!-- Métricas principales -->
+        <MudItem xs="12" md="3">
+             <MudPaper Elevation="4" Class="pa-4">
+                  <div class="row">
+                    <div class="col-md-3">
+                       @*  <MudItem xs="3"> *@
+                            <div class="icon-wrapper">
+                                <MudIcon Icon="@Icons.Material.Filled.ShoppingCart" Color="Color.Default" Size="Size.Large" />
+                            </div>
+                      @*   </MudItem> *@
+
+                    </div>
+                    <div class="col-md-9">
+                        @* <MudItem xs="9"> *@
+                            <MudText Typo="Typo.h6">Compras del Mes</MudText>
+                            <MudText Typo="Typo.h4" Color="Color.Primary">S/. 532,00</MudText>
+                       @*  </MudItem> *@
+                    </div>
+                </div>
+            </MudPaper>
+
+        </MudItem>
+        <MudItem xs="12" md="3">
+            <MudPaper Elevation="4" Class="pa-4">
+                <MudText Typo="Typo.h6">Ventas del Mes</MudText>
+                <MudText Typo="Typo.h4" Color="Color.Success">S/. 711,30</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" md="3">
+            <MudPaper Elevation="4" Class="pa-4">
+                <MudText Typo="Typo.h6"># Comprobantes de Ventas</MudText>
+                <MudText Typo="Typo.h4">6</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" md="3">
+            <MudPaper Elevation="4" Class="pa-4">
+                <MudText Typo="Typo.h6"># Comprobantes de Compras</MudText>
+                <MudText Typo="Typo.h4">4</MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+    <!-- Tabla resumen anual -->
+    <MudPaper Elevation="4" Class="mt-6 pa-4">
+        
+        <MudPaper Class="pa-2" Style="background-color: #e3f2fd;">
+            <MudText Typo="Typo.h6" Style="color: #1565c0;">Resumen de Ventas 2025</MudText>
+        </MudPaper>
+
+        <MudTable Items="@monthlyData" Hover="true">
+            <HeaderContent>
+                <MudTh>Año</MudTh>
+                <MudTh>Mes</MudTh>
+                <MudTh>Total</MudTh>
+                <MudTh>Porcentaje</MudTh>
+                <MudTh>Progreso</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Año">@context.Year</MudTd>
+                <MudTd DataLabel="Mes">@context.Month</MudTd>
+                <MudTd DataLabel="Total">S/. @context.Total</MudTd>
+                <MudTd DataLabel="Porcentaje">@context.Percentage%</MudTd>
+                <MudTd>
+                    <MudProgressLinear Value="@context.Percentage" Color="Color.Info" />
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudPaper>
+    <MudPaper Elevation="4" Class="mt-6 pa-4">
+        <MudText Typo="Typo.h6">Resumen de Compras 2025</MudText>
+        <MudTable Items="@monthlyData" Hover="true">
+            <HeaderContent>
+                <MudTh>Año</MudTh>
+                <MudTh>Mes</MudTh>
+                <MudTh>Total</MudTh>
+                <MudTh>Porcentaje</MudTh>
+                <MudTh>Progreso</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Año">@context.Year</MudTd>
+                <MudTd DataLabel="Mes">@context.Month</MudTd>
+                <MudTd DataLabel="Total">S/. @context.Total</MudTd>
+                <MudTd DataLabel="Porcentaje">@context.Percentage%</MudTd>
+                <MudTd>
+                    <MudProgressLinear Value="@context.Percentage" Color="Color.Info" />
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    class MonthlySummary
+    {
+        public int Year { get; set; }
+        public string Month { get; set; }
+        public decimal Total { get; set; }
+        public double Percentage { get; set; }
+    }
+
+    List<MonthlySummary> monthlyData = new()
+    {
+        new() { Year = 2020, Month = "Enero", Total = 0.00m, Percentage = 0 },
+        new() { Year = 2020, Month = "Febrero", Total = 0.00m, Percentage = 0 },
+        // Agrega más meses aquí...
+    };
+}
 
 
